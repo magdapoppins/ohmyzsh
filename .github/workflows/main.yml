@@ -7,7 +7,7 @@ on:
     branches:
       - master
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -24,7 +24,9 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update; sudo apt-get install zsh
       - name: Test installer
-        run: sh ./tools/install.sh
+        run: env BRANCH=$HEAD_BRANCH REPO=$GITHUB_REPOSITORY sh -x ./tools/install.sh
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
       - name: Check syntax
         run: |
           for file in ./oh-my-zsh.sh \
